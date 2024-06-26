@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat App</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Chat App</h1>
+        <div id="messages"></div>
+        <textarea id="messageInput" placeholder="Type your message..."></textarea>
+        <button onclick="sendMessage()">Send</button>
+    </div>
+
+    <script>
+        var ws = new WebSocket("ws://localhost:8000/ws/client123");
+
+        ws.onmessage = function(event) {
+            var messages = document.getElementById("messages");
+            messages.innerHTML += '<p>' + event.data + '</p>';
+        };
+
+        function sendMessage() {
+            var messageInput = document.getElementById("messageInput");
+            ws.send(messageInput.value);
+            messageInput.value = '';
+        }
+    </script>
+</body>
+</html>
